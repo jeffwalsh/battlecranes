@@ -40,16 +40,9 @@ let currentRound = 0;
 
 const rounds = [
     function(physics) {
-        redCrane32s = physics.add.group({})
-         redCrane64s = physics.add.group({})
-         greenCandles = physics.add.group({})
-         redCandles = physics.add.group({})
-         terrys = physics.add.group({})
-         pelosis = physics.add.group({})
-         beromes = physics.add.group({})
         redCrane32s = physics.add.group({
             key: 'redCrane32',
-            repeat: 0,
+            repeat: 9,
             immovable: true,
             setXY: {
                 x: 180,
@@ -59,7 +52,7 @@ const rounds = [
         })
         redCrane64s = physics.add.group({
             key: 'redCrane64',
-            repeat: 0,
+            repeat: 9,
             immovable: true,
             setXY: {
                 x: 100,
@@ -67,7 +60,6 @@ const rounds = [
                 stepX: 70
             }
         })
-        greenCandles, redCandles, terrys, pelosis, beromes = physics.add.group({})
     },
     function(physics) {
         redCrane32s = physics.add.group({
@@ -154,8 +146,11 @@ function preload() {
     // powerups
     this.load.image('horse', 'assets/images/horse.png');
 
+    // ball/player
     this.load.image('ball', 'assets/images/solana-circle.png');
     this.load.image('panda', 'assets/images/panda.png');
+
+    // lives
     this.load.image('heart', 'assets/images/heart.png')
     this.load.image('heartCracked', 'assets/images/heart-cracked.png');
 
@@ -185,8 +180,16 @@ function create() {
 
     heart = this.physics.add.sprite(30, 30, 'heart')
 
-
+    redCrane32s = this.physics.add.group({})
+    redCrane64s = this.physics.add.group({})
+    greenCandles = this.physics.add.group({})
+    redCandles = this.physics.add.group({})
+    terrys = this.physics.add.group({})
+    pelosis = this.physics.add.group({})
+    beromes = this.physics.add.group({})
+    
     rounds[0](this.physics);
+    
 
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -356,7 +359,7 @@ function hitPlayer() {
 
 function hitBrick(ball, brick) {
     const r = Math.random()
-    if (r >= 0.0) {
+    if (r >= 0.88) {
         horse = this.physics.add.sprite(
             brick.x, brick.y,
             'horse')

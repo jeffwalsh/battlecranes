@@ -153,6 +153,9 @@ function preload() {
     this.load.image('panda', 'assets/images/panda.png');
     this.load.image('heart', 'assets/images/heart.png')
     this.load.image('heartCracked', 'assets/images/heart-cracked.png');
+
+    // audio
+    this.load.audio('crystalmall', "assets/audio/crystalmall.mp3");
     this.load.audio('ballHit', "assets/audio/ballhit.wav")
     this.load.audio('brickHit', "assets/audio/brickhit.wav")
     this.load.audio('wassup', "assets/audio/wassuppandas.mp3");
@@ -370,6 +373,7 @@ function handleCursors(sound) {
         if(!gameStarted) {
             gameStarted = true;
             sound.play("lfg");
+            sound.play("crystalmall");
             heart.setVisible(true);
             heartText.setVisible(true);
             ballHitsText.setVisible(true);

@@ -24,6 +24,8 @@ const game = new Phaser.Game(config);
 
 let player, ball, redCrane32s, redCrane64s, greenCandles, redCandles, beromes, pelosis, terrys, cursors, heart;
 
+let playerMoveSpeed = 350;
+
 let lives = 2;
 
 let gameStarted = false;
@@ -148,6 +150,9 @@ function preload() {
     this.load.image('berome', 'assets/images/berome_dowell.png');
     this.load.image('pelosi', 'assets/images/pancy-jelosi.png');
     this.load.image('terry', 'assets/images/terry-tensler.png');
+
+    // powerups
+    this.load.image('horse', 'assets/images/horse.png');
 
     this.load.image('ball', 'assets/images/solana-circle.png');
     this.load.image('panda', 'assets/images/panda.png');
@@ -350,8 +355,19 @@ function hitPlayer() {
 }
 
 function hitBrick(ball, brick) {
+    const r = Math.random()
+    if (r >= 0.0) {
+        horse = this.physics.add.sprite(
+            brick.x, brick.y,
+            'horse')
+        horse.setScale(0.1);
+        horse.setVelocityY(100);
+        this.physics.add.collider(player, horse, hitHorse, null, this);
+    }
+
     this.sound.play("brickHit");
     brick.disableBody(true, true);
+
 
     if (ball.body.velocity.x == 0) {
         const randNum = Math.random();
@@ -361,6 +377,14 @@ function hitBrick(ball, brick) {
             ball.body.setVelocityX(-150);
         }
     }
+}
+
+function hitHorse(player, horse) {
+    horse.disableBody(true, true);
+    playerMoveSpeed = 1000;
+    setTimeout(function() {
+        playerMoveSpeed = 350;
+    }, 1000 * 10)
 }
 
 
@@ -385,9 +409,9 @@ function handleCursors(sound) {
 
     player.body.setVelocityX(0);
     if (cursors.left.isDown) {
-        player.body.setVelocityX(-350);
+        player.body.setVelocityX(-playerMoveSpeed);
     } else if (cursors.right.isDown) {
-        player.body.setVelocityX(350);
+        player.body.setVelocityX(playerMoveSpeed);
     }
 }
 
